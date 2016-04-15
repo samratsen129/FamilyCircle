@@ -42,7 +42,7 @@ public class NotificationMgr {
 
 			String title = null;
 			if (notificationId == TEAMConstants.NOTIFICATION_MISSED_CALL_ID){
-				title = "Missed call from " + fromName;
+				title = "Update from " + fromName;
 			} else {
 				title = "New voicemail from " + fromName;
 			}

@@ -11,6 +11,8 @@ import com.familycircle.lib.utils.Logger;
 import com.familycircle.sdk.Constants;
 import com.familycircle.sdk.models.ContactModel;
 import com.familycircle.sdk.models.ContactsStaticDataModel;
+import com.familycircle.utils.NotificationMgr;
+import com.familycircle.utils.TEAMConstants;
 import com.familycircle.utils.network.LoginRequest;
 import com.familycircle.utils.network.M2XCreateStream;
 import com.familycircle.utils.network.M2XCreateStreamValue;
@@ -142,6 +144,23 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
         @Override
         public void successCallback(String channel, Object message) {
             Logger.d("SUBSCRIBE :  Message Received: " + message.toString());
+            try {
+                JSONObject jsonObject = new JSONObject(message.toString());
+                String from = jsonObject.getString("from");
+                String type = jsonObject.getString("type");
+
+                if (type.equalsIgnoreCase("panic")) {
+                    String messageValue = jsonObject.getString("value");
+
+
+                    NotificationMgr notificationMgr = new NotificationMgr();
+                    notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", from, messageValue);
+                }
+
+            } catch (Exception e){
+                Logger.e("Exception during parsing message", e);
+            }
+
             for (OnPubNubMessage onPubNubMessage1:callbacks){
                 onPubNubMessage1.onPubNubMessage(channel, message);
             }

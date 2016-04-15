@@ -30,6 +30,8 @@ public class MBand2Manager {
     private static MBand2Manager _instance = new MBand2Manager();
     public static final String TAG = "MBand2Manager";
 
+    long rate1=0, rate2=0, rate3=0;
+
     private BandClient client = null;
     public boolean isStarted = false;
 
@@ -48,7 +50,7 @@ public class MBand2Manager {
                 userContact.heartRate = event.getHeartRate()+"";
 
                 UserObject userObject = LoginRequest.getUserObject();
-                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.m2x_id, "heartrate", "numeric", event.getHeartRate()+"");
+                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.m2x_id, "heartbeat", "numeric", event.getHeartRate()+"");
                 m2XCreateStream.exec();
             }
         }

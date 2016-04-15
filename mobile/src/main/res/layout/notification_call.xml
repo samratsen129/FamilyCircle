@@ -17,6 +17,7 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/notification_image"
         android:layout_alignTop="@+id/notification_image"
+        android:textColor="@color/color_black"
         style="@style/NotificationTitle"/>
 
     <TextView
@@ -26,6 +27,8 @@
         android:layout_below="@+id/notification_image"
         android:layout_toRightOf="@+id/notification_image"
         android:layout_alignLeft="@+id/notification_title"
+        android:layout_centerVertical="true"
+        android:textColor="@color/color_black"
         style="@style/NotificationText"/>
 
 </RelativeLayout>

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.familycircle.utils.NotificationMgr;
+import com.familycircle.utils.TEAMConstants;
 import com.familycircle.utils.network.LoginRequest;
 import com.familycircle.utils.network.M2XCreateStreamValue;
 import com.familycircle.utils.network.model.UserObject;
@@ -37,6 +38,8 @@ import com.familycircle.utils.TEAMUtils;
 import com.familycircle.lib.utils.PrefManagerBase;
 import com.familycircle.sdk.Constants;
 import com.familycircle.sdk.models.MessageModel;
+
+import java.util.Date;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, Handler.Callback{
@@ -190,9 +193,9 @@ public class MainActivity extends ActionBarActivity
             startActivity(intent);
 
         } else if (isPanic){
-            Toast.makeText(getApplicationContext(), "Panic Triggered", Toast.LENGTH_SHORT).show();
-            NotificationMgr notificationMgr = new NotificationMgr();
-            notificationMgr.showNotification(1234, "Alert", "ssen@mp.com", "panic received");
+            Date date = new Date();
+            Toast.makeText(getApplicationContext(), "Panic Triggered @ " + date.toString(), Toast.LENGTH_SHORT).show();
+
         } else {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
@@ -205,8 +208,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void panicTrigger(){
+        Date date = new Date();
         UserObject userObject = LoginRequest.getUserObject();
-        M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "panic", "alphanumeric", "I am panic-ing");
+        M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "panic", "alphanumeric", "I am panic-ing @ " + date.toString());
         m2XCreateStream.exec();
     }
 
