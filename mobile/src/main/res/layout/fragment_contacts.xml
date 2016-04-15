@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#e4e5e7"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+        <ImageView
+            android:id="@+id/status_indicator"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/rounded_status_indicator_on_bg"
+            android:layout_marginRight="5dp" />
+        <TextView
+            android:id="@+id/tab1Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="#262d34"
+            android:textStyle="bold"
+            android:background="@drawable/bottom_line"
+            android:text="Members"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center"
+            android:background="@color/divider_color">
+        </View>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+        <TextView
+            android:id="@+id/tab2Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="#a4aab0"
+            android:textStyle="bold"
+            android:text="Non-Members"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/search_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:drawableLeft="@drawable/ic_search"
+        android:hint="@string/search_hint"
+        android:background="@drawable/search_edit_text_bg"
+        android:textColor="#262d34"
+        android:textSize="20sp"
+        android:singleLine="true" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <include
+            layout="@layout/loading_empty_view"
+            />
+
+        <com.familycircle.custom.views.PinnedHeaderListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="1dp"
+            android:divider="@color/light_grey"
+            android:scrollingCache="false" />
+    </FrameLayout>
+
+</LinearLayout>

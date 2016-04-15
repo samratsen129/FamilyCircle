@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Family Circle</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Enter email address</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="login_button_label">Login</string>
+    <string name="login_form_header">Welcome to your Circle</string>
+
+    <string name="title_contacts">Contacts</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_recordings">Call Recordings</string>
+    <string name="title_logoff">Log Off</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="create_profile_header">Create Your Profile</string>
+    <string name="create_profile_name_hint">Enter First and Last Name</string>
+    <string name="create_profile_phone_hint">Enter Phone Number</string>
+    <string name="create_profile_back_label">Back</string>
+    <string name="create_profile_next_label">Next</string>
+    <string name="create_profile_add_photo">Tap to Add Photo</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <!--string name="error_incorrect_password">This credential is incorrect</string-->
+    <string name="error_field_required">This field is required</string>
+
+    <string name="new_notification_msg">New message from %1$s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+    <string name="search_hint">search</string>
+    <string name="empty_list_msg">No Results</string>
+    <string name="title_activity_message_detail">MessageDetailActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_in_call">InCallActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_new_user_login">NewUserLoginActivity</string>
+
+</resources>

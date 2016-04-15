@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:connect="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/splash">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="@color/splash_opacity">
+
+        <!-- Login progress -->
+        <ProgressBar android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+             />
+
+        <LinearLayout android:id="@+id/profile_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FormHeader"
+                android:text="@string/create_profile_header"/>
+                <AutoCompleteTextView android:id="@+id/nameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_profile_name_hint"
+                    android:gravity="center"
+                    android:capitalize="sentences"
+                    android:inputType="textPersonName"
+                    android:imeActionId="@+id/done"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="1"
+                    style="@style/FormEditText"
+                    android:singleLine="true" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView android:id="@+id/phoneTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_profile_phone_hint"
+                    android:gravity="center"
+                    android:inputType="phone"
+                    android:imeActionId="@+id/done"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="1"
+                    style="@style/FormEditText"
+                    android:singleLine="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/backButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/create_profile_back_label"
+                    style="@style/FormButtonUnselected" />
+                <Button android:id="@+id/nextButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/create_profile_next_label"
+                    style="@style/FormButton"  />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/profile_image_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.mportal.team.android.custom.views.CircularImageView
+                android:id="@+id/user_image_avatar"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/blank_avatar"
+                android:layout_gravity="center_horizontal"
+                connect:border_width="0dp"
+                connect:shadow="false"
+                />
+            <View
+                android:layout_width="32dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/purple"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="@string/create_profile_add_photo"
+                style="@style/RegularLabel"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

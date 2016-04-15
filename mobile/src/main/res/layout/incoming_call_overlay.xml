@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:background="@color/charcoal">
+    <Button
+            android:id="@+id/buttonOptionMessage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal"
+            android:text="Can't talk now. What's up?"
+            android:textColor="@color/white"
+            android:background="@drawable/message_option_btn_selector"
+            android:padding="10dp"
+            android:textSize="18.0sp" />
+    <Button
+            android:id="@+id/buttonOptionMessage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/buttonOptionMessage1"
+            android:text="I'll call you right back."
+            android:textColor="@color/white"
+            android:background="@drawable/message_option_btn_selector"
+            android:padding="10dp"
+            android:textSize="18.0sp" />
+    <Button
+            android:id="@+id/buttonOptionMessage3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/buttonOptionMessage2"
+            android:text="I'll call you later."
+            android:textColor="@color/white"
+            android:background="@drawable/message_option_btn_selector"
+            android:padding="10dp"
+            android:textSize="18.0sp" /> 
+    <Button
+            android:id="@+id/buttonOptionMessage4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/buttonOptionMessage3"
+            android:text="Can't talk now. Call me later?"
+            android:background="@drawable/message_option_btn_selector"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="18.0sp" /> 
+            
+    <LinearLayout
+        	android:id="@+id/llbuttonOptionMessageCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/buttonOptionMessage4">
+	    <Button
+	            android:id="@+id/buttonOptionMessageCustom"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	        	android:gravity="center_horizontal"
+	            android:text="Write your own ..."
+	            android:padding="10dp"
+	            android:textColor="@color/white"
+	            android:background="@drawable/message_option_btn_selector"
+	            android:textSize="18.0sp" />  
+	     
+	    <LinearLayout
+	            android:id="@+id/chatfooterrelativelayout"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            android:paddingBottom="5dip"
+	            android:layout_gravity="center"
+	            android:gravity="center_horizontal"
+	            android:paddingLeft="5dip"
+	            android:paddingRight="5dip"
+	            android:paddingTop="5dip"
+	            android:visibility="gone">
+	
+	            <RelativeLayout
+	                android:id="@+id/editor_with_counter"
+	                android:layout_width="0dip"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1.0"
+	                android:addStatesFromChildren="true"
+	                android:background="@android:drawable/edit_text" >
+	
+	                <EditText
+	                    android:id="@+id/chatMessageArea"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="wrap_content"
+	                    android:autoText="true"
+	                    android:background="@null"
+	                    android:capitalize="sentences"
+	                    android:hint="Compose Message"
+	                    android:imeOptions="actionSend|flagNoEnterAction"
+	                    android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+	                    android:maxLength="1000"
+	                    android:maxLines="4"
+	                    android:nextFocusRight="@+id/send_button" />
+	
+	                <TextView
+	                    android:id="@+id/text_counter"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_alignParentTop="true"
+	                    android:background="#88000000"
+	                    android:paddingLeft="3dip"
+	                    android:paddingRight="3dip"
+	                    android:textColor="#ffffffff"
+	                    android:textSize="11sp"
+	                    android:textStyle="bold"
+	                    android:visibility="gone" />
+	            </RelativeLayout>
+	
+	            <Button
+	                android:id="@+id/sendChatMsg"
+	                android:layout_width="32dp"
+	                android:layout_height="32dp"
+	                android:layout_gravity="center_vertical"
+	                android:layout_marginLeft="5dip"
+	                android:background="@drawable/button_send_selector"/>
+	    </LinearLayout>
+    </LinearLayout>
+    <Button
+            android:id="@+id/buttonCancelMessage"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Cancel"
+            android:textColor="@color/white" 
+            android:layout_below="@+id/llbuttonOptionMessageCustom"
+            android:background="@drawable/message_cancel_btn_selector" />
+</RelativeLayout>

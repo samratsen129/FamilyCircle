@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/splash">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="@color/splash_opacity">
+
+        <ImageView
+            android:id="@+id/topLogoImage"
+            android:layout_width="@dimen/logo_width"
+            android:layout_height="@dimen/logo_height"
+            android:layout_marginTop="@dimen/logo_margin_top"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/topLogoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/topLogoImage"
+            android:layout_marginTop="5dp"
+            android:text="@string/app_name"
+            style="@style/LogoText"
+            />
+
+        <!-- Login progress -->
+        <ProgressBar android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout android:id="@+id/login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FormHeader"
+                android:text="Invite a New Person to your \nFamily Circle"/>
+
+            <AutoCompleteTextView android:id="@+id/invite_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Invitation Code"
+                android:imeActionId="@+id/login"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:maxLength="4"
+                style="@style/FormEditText"
+                android:singleLine="true" />
+
+            <AutoCompleteTextView android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                style="@style/FormEditText"
+                android:singleLine="true" />
+
+            <Button android:id="@+id/email_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Confirm"
+                style="@style/FormButton" />
+
+        </LinearLayout>
+
+
+        </RelativeLayout>
+
+</LinearLayout>

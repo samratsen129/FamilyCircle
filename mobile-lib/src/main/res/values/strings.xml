@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">team-lib</string>
+    <string name="team_url">https://teampresence.mpsvcs.com/</string>
+</resources>

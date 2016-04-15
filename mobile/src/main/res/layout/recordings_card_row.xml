@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:connect="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contacts_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
+        <com.familycircle.custom.views.CircularImageView
+            android:id="@+id/image_recording"
+            android:layout_width="@dimen/sms_chat_to_profile_image_width"
+            android:layout_height="@dimen/sms_chat_to_profile_image_width"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/icon_avatar"
+            connect:border_width="0dp"
+            connect:shadow="false" />
+        <VideoView
+            android:id="@+id/video_recording"
+            android:layout_width="@dimen/sms_chat_to_profile_image_width"
+            android:layout_height="@dimen/sms_chat_to_profile_image_width"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/sms_chat_to_profile_image_margin_right"
+            android:layout_marginRight="5dp"
+            android:background="#0000"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/text_view_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Name"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="60dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#262d34"
+            android:textSize="17sp"/>
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_name"
+            android:layout_alignLeft="@+id/text_view_name"
+            android:text="contact det"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#889092"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

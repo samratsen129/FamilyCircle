@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:connect="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingRight="10dp"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/contact_addTochatCheckboxId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="2dp" />
+
+    <com.familycircle.custom.views.CircularImageView
+        android:id="@+id/sender_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/contact_addTochatCheckboxId"
+        android:src="@drawable/icon_avatar"
+        connect:border_width="0dp"
+        connect:shadow="false" />
+
+    <RelativeLayout
+        android:id="@+id/messageLayoutId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/sender_image" >
+
+        <TextView
+            android:id="@+id/chat_sender_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#262d34"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/chat_sender_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chat_sender_name"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#889092"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/message_received"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chat_sender_number"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#889092"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/messageLayoutId" >
+
+        <TextView
+            android:id="@+id/messageUnreadCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/unread_count_bg"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text=""
+            android:textColor="@color/blue"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time_of_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/messageUnreadCount"
+            android:layout_marginRight="5dp"
+            android:gravity="bottom"
+            android:text="11:45"
+            android:textColor="#889092"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/time_of_chat_in_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/time_of_chat"
+            android:layout_marginRight="5dp"
+            android:text=""
+            android:textColor="#889092"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

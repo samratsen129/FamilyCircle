@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base"/>
+    <style name="FullScreenAppTheme" parent="AppTheme.FullScreenBase"/>
+
+    <style name="LogoText">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="RegularLabel">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="FormHeader">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="FormEditText">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#858e97</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:background">@drawable/rounded_edittext_bg</item>
+    </style>
+    <style name="FormButton">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/rounded_button_selector</item>
+    </style>
+    <style name="FormButtonUnselected">
+        <!--  <item name="android:fontFamily">sans-serif</item> -->
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/rounded_button_unselected_selector</item>
+    </style>
+    <style name="NotificationText" parent="android:TextAppearance.StatusBar.EventContent" />
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
+</resources>
