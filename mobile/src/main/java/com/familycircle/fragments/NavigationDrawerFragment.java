@@ -113,6 +113,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_contacts),
                         getString(R.string.title_messages),
                         getString(R.string.title_recordings),
+                        "Panic",
                         getString(R.string.title_logoff),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

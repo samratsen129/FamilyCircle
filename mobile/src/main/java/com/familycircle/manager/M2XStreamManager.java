@@ -28,7 +28,7 @@ public class M2XStreamManager implements ResponseListener {
 
         this.responseCallback = responseCallback;
         UserObject userObject = LoginRequest.getUserObject();
-        M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.device_id, "location", "degree", "deg", "alphanumeric");
+        M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "location", "degree", "deg", "alphanumeric");
         m2XCreateStream.exec();
         isLocCompleted=true;
     }
@@ -38,6 +38,7 @@ public class M2XStreamManager implements ResponseListener {
         if (response.getRequestType() == Types.RequestType.M2X_CREATE_STREAM){
             if (!evaluateMore()){
                 if (responseCallback!=null){
+                    response.setRequestType(Types.RequestType.M2X_CREATE_STREAM_MGR);
                     responseCallback.onSuccess(response);
                 }
             }
@@ -47,27 +48,33 @@ public class M2XStreamManager implements ResponseListener {
     private boolean evaluateMore() {
         UserObject userObject = LoginRequest.getUserObject();
         if (!isTempCompleted) {
-            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.device_id, "temperature", "degree", "deg", "numeric");
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "temperature", "degree", "deg", "numeric");
             m2XCreateStream.exec();
             isTempCompleted = true;
             return true;
         }
         if (!isHRCompleted) {
-            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.device_id, "heartbeat", "beats", "beats", "numeric");
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "heartbeat", "beats", "beats", "numeric");
             m2XCreateStream.exec();
             isHRCompleted = true;
             return true;
         }
         if (!isVitalsCompleted) {
-            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.device_id, "distance", "meters", "m", "alphanumeric");
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "distance", "meters", "m", "alphanumeric");
             m2XCreateStream.exec();
-            isLocCompleted = true;
+            isVitalsCompleted = true;
             return true;
         }
         if (!isPanicCompleted) {
-            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.device_id, "panic", "none", "none", "alphanumeric");
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "panic", "none", "none", "alphanumeric");
             m2XCreateStream.exec();
             isPanicCompleted = true;
+            return true;
+        }
+        if (!isLocCompleted) {
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "panic", "none", "none", "alphanumeric");
+            m2XCreateStream.exec();
+            isLocCompleted = true;
             return true;
         }
         return false;
@@ -76,6 +83,7 @@ public class M2XStreamManager implements ResponseListener {
     @Override
     public void onFailure(Response response) {
         if (responseCallback!=null){
+            response.setRequestType(Types.RequestType.M2X_CREATE_STREAM_MGR);
             responseCallback.onFailure(response);
         }
     }

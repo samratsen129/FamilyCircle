@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.familycircle.R;
 import com.familycircle.lib.utils.PrefManagerBase;
+import com.familycircle.manager.M2XStreamManager;
+import com.familycircle.manager.M2XTriggerManager;
 import com.familycircle.manager.PubSubManager;
 import com.familycircle.manager.TeamManager;
 import com.familycircle.sdk.Constants;
@@ -243,10 +245,15 @@ public class NewUserLoginActivity extends Activity implements Handler.Callback, 
 
         if (msg.what == Constants.EventReturnState.GET_USERS_SUCCESS.value){
             Log.d(TAG, "Login Successful");
-            showProgress(false);
-            PrefManagerBase prefManager = new PrefManagerBase();
+
+            //showProgress(false);
+            M2XStreamManager m2XStreamManager = new M2XStreamManager();
+            m2XStreamManager.checkAndCreateTriggers(this);
+
+
+            /*PrefManagerBase prefManager = new PrefManagerBase();
             prefManager.setUserLoggedOff(false);
-            startScreen();
+            startScreen();*/
 
         } else if (msg.what == Constants.EventReturnState.CONTROL_RETRIES_FAILED.value){
             showProgress(false);
@@ -338,6 +345,18 @@ public class NewUserLoginActivity extends Activity implements Handler.Callback, 
                 invite_code.setVisibility(View.GONE);
             }
 
+        }
+
+        if (response.getRequestType() == Types.RequestType.M2X_CREATE_STREAM_MGR){
+            M2XTriggerManager m2XTriggerManager = new M2XTriggerManager();
+            m2XTriggerManager.checkAndCreateTriggers(this);
+        }
+
+        if (response.getRequestType() == Types.RequestType.M2X_CREATE_TRIGGER_MGR){
+            showProgress(false);
+            PrefManagerBase prefManager = new PrefManagerBase();
+            prefManager.setUserLoggedOff(false);
+            startScreen();
         }
 
         if (response.getRequestType() == Types.RequestType.M2X_CREATE_DEVICE){

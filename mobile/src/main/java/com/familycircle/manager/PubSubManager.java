@@ -239,7 +239,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
         userContact.location = messageLabel;
 
         // Send to M2X
-        M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, "location", userObject.device_id, "alphanumeric", messageLabel);
+        M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "location", "alphanumeric", messageLabel);
         m2XCreateStream.exec();
 
         // Broadcast information on PubNub Channel

@@ -88,11 +88,11 @@ public class M2XCreateLocationTrigger extends Request {
 
         String jsonStr = "{ \"name\": \""+triggerName+"\","+
                 "  \"conditions\": {"+
-                "    \"location\": { \"changed\"}"+
+                "    \"location\": { \"changed\": true}"+
                 "  },"+
                 "  \"frequency\": \"periodic\","+
                 "  \"interval\": \"120\","+
-                "  \"callback_url\": \"+M2X_CALLBACK+\","+
+                "  \"callback_url\": \""+M2X_CALLBACK+"\","+
                 "  \"custom_data\": \"{ \\\"from\\\": \\\""+userObject.email+"\\\", \\\"queues\\\":[\\\""+familyId+"\\\"] }\" "+
                 "}";
         return jsonStr;

@@ -18,11 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.familycircle.utils.NotificationMgr;
+import com.familycircle.utils.network.LoginRequest;
+import com.familycircle.utils.network.M2XCreateStreamValue;
+import com.familycircle.utils.network.model.UserObject;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.familycircle.R;
-import com.familycircle.auto.MessagingService;
+//import com.familycircle.auto.MessagingService;
 import com.familycircle.fragments.ContactsFragment;
 import com.familycircle.fragments.MessageHistoryFragment;
 import com.familycircle.fragments.MyRecordingsFragment;
@@ -85,7 +90,7 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        startService(new Intent(MainActivity.this, MessagingService.class));
+        //startService(new Intent(MainActivity.this, MessagingService.class));
     }
 
     @Override
@@ -107,7 +112,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(MainActivity.this, MessagingService.class));
+        //stopService(new Intent(MainActivity.this, MessagingService.class));
     }
 
 
@@ -148,6 +153,7 @@ public class MainActivity extends ActionBarActivity
         Fragment fragment = null;
         boolean isLogOff = false;
         boolean isInviteUser = false;
+        boolean isPanic = false;
         switch (position){
             case 1:
                 isInviteUser = true;
@@ -163,6 +169,10 @@ public class MainActivity extends ActionBarActivity
                 fragment = new MyRecordingsFragment();
                 break;
             case 5:
+                isPanic=true;
+                panicTrigger();
+                break;
+            case 6:
                 isLogOff = true;
                 break;
         }
@@ -179,6 +189,10 @@ public class MainActivity extends ActionBarActivity
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 
+        } else if (isPanic){
+            Toast.makeText(getApplicationContext(), "Panic Triggered", Toast.LENGTH_SHORT).show();
+            NotificationMgr notificationMgr = new NotificationMgr();
+            notificationMgr.showNotification(1234, "Alert", "ssen@mp.com", "panic received");
         } else {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
@@ -190,6 +204,11 @@ public class MainActivity extends ActionBarActivity
         return getSupportFragmentManager().findFragmentById(R.id.container);
     }
 
+    private void panicTrigger(){
+        UserObject userObject = LoginRequest.getUserObject();
+        M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "panic", "alphanumeric", "I am panic-ing");
+        m2XCreateStream.exec();
+    }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();

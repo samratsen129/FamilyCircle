@@ -1,8 +1,10 @@
 package com.familycircle.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -28,6 +30,10 @@ import com.familycircle.utils.imagecache.ImageLoader;
 import com.familycircle.lib.utils.PrefManagerBase;
 import com.familycircle.sdk.models.ContactModel;
 import com.familycircle.sdk.models.ContactsStaticDataModel;
+import com.microsoft.band.BandException;
+import com.microsoft.band.sensors.HeartRateConsentListener;
+
+import java.lang.ref.WeakReference;
 
 public class SettingsActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -157,12 +163,52 @@ public class SettingsActivity extends ActionBarActivity implements CompoundButto
             case R.id.switch_microsoft_band:
                 Logger.d("Band2 switch_compat " + isChecked + "");
                 if (isChecked){
+                    final WeakReference<Activity> reference = new WeakReference<Activity>(this);
                     MBand2Manager.getInstance().startSubscriptionTask();
+                    new HeartRateConsentTask().execute(reference);
                 } else {
                     //MBand2Manager.getInstance().stopSubscriptionTask();
                     MBand2Manager.getInstance().pauseTasks();
                 }
                 break;
+        }
+    }
+
+    private class HeartRateConsentTask extends AsyncTask<WeakReference<Activity>, Void, Void> {
+        @Override
+        protected Void doInBackground(WeakReference<Activity>... params) {
+            try {
+                if (MBand2Manager.getInstance().getConnectedBandClient()) {
+
+                    if (params[0].get() != null) {
+                        MBand2Manager.getInstance().getBandClient().getSensorManager().requestHeartRateConsent(params[0].get(), new HeartRateConsentListener() {
+                            @Override
+                            public void userAccepted(boolean consentGiven) {
+                            }
+                        });
+                    }
+                } else {
+                    Logger.d("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
+                }
+            } catch (BandException e) {
+                String exceptionMessage="";
+                switch (e.getErrorType()) {
+                    case UNSUPPORTED_SDK_VERSION_ERROR:
+                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
+                        break;
+                    case SERVICE_ERROR:
+                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
+                        break;
+                    default:
+                        exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
+                        break;
+                }
+                Logger.d(exceptionMessage);
+
+            } catch (Exception e) {
+                Logger.d(e.getMessage());
+            }
+            return null;
         }
     }
 }

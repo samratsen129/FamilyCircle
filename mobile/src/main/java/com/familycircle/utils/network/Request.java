@@ -283,6 +283,7 @@ public abstract class Request {
 					
 				} else if (getStringBodyContent()!=null){
 					StringEntity entity = new StringEntity(getStringBodyContent());
+					Logger.d("Request PUT string body " + getStringBodyContent());
 					client.post(TeamApp.getContext(), url.toString(), entity, "application/json", asyncHttpResponseHandler);
 					
 				} else {
@@ -298,7 +299,7 @@ public abstract class Request {
 					
 				} else if (getStringBodyContent()!=null){
 					StringEntity entity = new StringEntity(getStringBodyContent());
-					//Logger.d("Request PUT string body " + entity.toString());
+					Logger.d("Request PUT string body " + getStringBodyContent());
 					//client.addHeader("Content-Type", "application/json");
 					client.put(TeamApp.getContext(), url.toString(), entity, "application/json", asyncHttpResponseHandler);
 					

@@ -88,11 +88,11 @@ public class M2XCreateHRTrigger extends Request {
 
         String jsonStr = "{ \"name\": \""+triggerName+"\","+
                 "  \"conditions\": {"+
-                "    \"heartrate\": { \"gt\": "+condition +"}"+
+                "    \"heartbeat\": { \"gt\": "+condition +"}"+
                 "  },"+
                 "  \"frequency\": \"periodic\","+
                 "  \"interval\": \"120\","+
-                "  \"callback_url\": \"+M2X_CALLBACK+\","+
+                "  \"callback_url\": \""+M2X_CALLBACK+"\","+
                 "  \"custom_data\": \"{ \\\"from\\\": \\\""+userObject.email+"\\\", \\\"queues\\\":[\\\""+familyId+"\\\", \\\"pi-atthack-04162016\\\"] }\" "+
                 "}";
         return jsonStr;

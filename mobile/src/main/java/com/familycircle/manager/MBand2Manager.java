@@ -48,7 +48,7 @@ public class MBand2Manager {
                 userContact.heartRate = event.getHeartRate()+"";
 
                 UserObject userObject = LoginRequest.getUserObject();
-                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.device_id, "heartrate", "numeric", event.getHeartRate()+"");
+                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.m2x_id, "heartrate", "numeric", event.getHeartRate()+"");
                 m2XCreateStream.exec();
             }
         }
@@ -63,7 +63,7 @@ public class MBand2Manager {
                 Log.d(TAG, String.format("Skin Temperature = %.2f \n", event.getTemperature()));
 
                 UserObject userObject = LoginRequest.getUserObject();
-                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, "temperature", userObject.device_id, "numeric", "temperature: " + event.getTemperature());
+                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.m2x_id, "temperature", "numeric", "temperature: " + event.getTemperature());
                 m2XCreateStream.exec();
             }
         }
@@ -86,7 +86,7 @@ public class MBand2Manager {
                 userContact.speed = bandDistanceEvent.getSpeed()+"";
 
                 UserObject userObject = LoginRequest.getUserObject();
-                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, "distance", "alphanumeric", userObject.device_id, "motion: " + userContact.montionType +", speed:" + userContact.speed +", distance:" + userContact.distanceToday);
+                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue (null, userObject.m2x_id, "distance", "alphanumeric", "motion: " + userContact.montionType +", speed:" + userContact.speed +", distance:" + userContact.distanceToday);
                 m2XCreateStream.exec();
             }
         }

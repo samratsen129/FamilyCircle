@@ -87,11 +87,11 @@ public class M2XCreatePanicTrigger extends Request {
 
         String jsonStr = "{ \"name\": \""+triggerName+"\","+
                 "  \"conditions\": {"+
-                "    \"panic\": { \"changed\"}"+
+                "    \"panic\": { \"changed\": true}"+
                 "  },"+
                 "  \"frequency\": \"periodic\","+
                 "  \"interval\": \"30\","+
-                "  \"callback_url\": \"+M2X_CALLBACK+\","+
+                "  \"callback_url\": \""+M2X_CALLBACK+"\","+
                 "  \"custom_data\": \"{ \\\"from\\\": \\\""+userObject.email+"\\\", \\\"queues\\\":[\\\""+familyId+"\\\"] }\" "+
                 "}";
         return jsonStr;

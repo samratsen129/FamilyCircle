@@ -28,7 +28,7 @@ public class M2XTriggerManager implements ResponseListener {
 
         this.responseCallback = responseCallback;
         UserObject userObject = LoginRequest.getUserObject();
-        M2XGetTrigger m2XGetTrigger = new M2XGetTrigger(this, userObject.device_id);
+        M2XGetTrigger m2XGetTrigger = new M2XGetTrigger(this, userObject.m2x_id);
         m2XGetTrigger.exec();
     }
 
@@ -44,7 +44,7 @@ public class M2XTriggerManager implements ResponseListener {
                         String name = trigger.name;
                         if (name.equalsIgnoreCase("temperature")){
                             isTempCompleted=true;
-                        } else if (name.equalsIgnoreCase("heartrate")){
+                        } else if (name.equalsIgnoreCase("heartbeat")){
                             isHRCompleted =true;
                         } else if (name.equalsIgnoreCase("location")){
                             isLocCompleted = true;
@@ -57,6 +57,7 @@ public class M2XTriggerManager implements ResponseListener {
 
             if (!evaluateMore()){
                 if (responseCallback!=null){
+                    response.setRequestType(Types.RequestType.M2X_CREATE_TRIGGER_MGR);
                     responseCallback.onSuccess(response);
                 }
             }
@@ -64,6 +65,7 @@ public class M2XTriggerManager implements ResponseListener {
         } else if (response.getRequestType() == Types.RequestType.M2X_CREATE_TRIGGERS){
             if (!evaluateMore()){
                 if (responseCallback!=null){
+                    response.setRequestType(Types.RequestType.M2X_CREATE_TRIGGER_MGR);
                     responseCallback.onSuccess(response);
                 }
             }
@@ -74,27 +76,28 @@ public class M2XTriggerManager implements ResponseListener {
         UserObject userObject = LoginRequest.getUserObject();
         if (!isTempCompleted) {
             M2XCreateTemperatureTrigger m2XCreateTemperatureTrigger =
-                    new M2XCreateTemperatureTrigger(this, userObject.device_id, TEMPERATURE_LIMIT, "temperature", userObject.family_id);
+                    new M2XCreateTemperatureTrigger(this, userObject.m2x_id, TEMPERATURE_LIMIT, "temperature", userObject.family_id);
             m2XCreateTemperatureTrigger.exec();
             isTempCompleted = true;
             return true;
         }
         if (!isHRCompleted) {
             M2XCreateHRTrigger m2XCreateHRTrigger =
-                    new M2XCreateHRTrigger(this, userObject.device_id, HR_LIMIT, "heartrate", userObject.family_id);
+                    new M2XCreateHRTrigger(this, userObject.m2x_id, HR_LIMIT, "heartbeat", userObject.family_id);
             m2XCreateHRTrigger.exec();
             isHRCompleted = true;
             return true;
         }
         if (!isLocCompleted) {
-            M2XCreateLocationTrigger m2XCreateLocationTrigger = new M2XCreateLocationTrigger(this, userObject.device_id, "location", userObject.family_id);
+            M2XCreateLocationTrigger m2XCreateLocationTrigger = new M2XCreateLocationTrigger(this, userObject.m2x_id, "location", userObject.family_id);
             m2XCreateLocationTrigger.exec();
             isLocCompleted = true;
             return true;
         }
         if (!isPanicCompleted){
-            M2XCreatePanicTrigger m2XCreatePanicTrigger = new M2XCreatePanicTrigger(this, userObject.device_id, "panic", userObject.family_id);
+            M2XCreatePanicTrigger m2XCreatePanicTrigger = new M2XCreatePanicTrigger(this, userObject.m2x_id, "panic", userObject.family_id);
             m2XCreatePanicTrigger.exec();
+            isPanicCompleted=true;
         }
         return false;
     }
@@ -102,6 +105,7 @@ public class M2XTriggerManager implements ResponseListener {
     @Override
     public void onFailure(Response response) {
         if (responseCallback!=null){
+            response.setRequestType(Types.RequestType.M2X_CREATE_TRIGGER_MGR);
             responseCallback.onFailure(response);
         }
     }
