@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     android:gravity="center">
+
     <ImageView
         android:id="@+id/notification_image"
         android:layout_width="wrap_content"
@@ -17,7 +19,7 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/notification_image"
         android:layout_alignTop="@+id/notification_image"
-        android:textColor="@color/color_black"
+        android:textColor="@color/red"
         style="@style/NotificationTitle"/>
 
     <TextView
@@ -28,7 +30,7 @@
         android:layout_toRightOf="@+id/notification_image"
         android:layout_alignLeft="@+id/notification_title"
         android:layout_centerVertical="true"
-        android:textColor="@color/color_black"
+        android:textColor="@color/blue"
         style="@style/NotificationText"/>
 
 </RelativeLayout>

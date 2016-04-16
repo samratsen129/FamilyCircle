@@ -102,6 +102,11 @@
             android:scaleType="centerInside"
             android:alpha="0.8"
             android:src="@drawable/information"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
         <ImageButton
             android:id="@+id/mapButtonCard"
             android:layout_width="48dp"
@@ -110,7 +115,12 @@
             android:background="@drawable/rounded_border_button_off_bg"
             android:scaleType="centerInside"
             android:alpha="0.8"
-            android:src="@drawable/ic_media_play"/>
+            android:src="@drawable/location"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
         <ImageButton
             android:id="@+id/vitalsButtonCard"
             android:layout_width="48dp"
@@ -119,15 +129,6 @@
             android:background="@drawable/rounded_border_button_off_bg"
             android:scaleType="centerInside"
             android:alpha="0.8"
-            android:src="@drawable/ic_media_pause"/>
-        <ImageButton
-            android:id="@+id/hrButtonCard"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="5dp"
-            android:background="@drawable/rounded_border_button_off_bg"
-            android:scaleType="centerInside"
-            android:alpha="0.8"
-            android:src="@drawable/mr_ic_audio_vol"/>
+            android:src="@drawable/distance"/>
     </LinearLayout>
 </RelativeLayout>

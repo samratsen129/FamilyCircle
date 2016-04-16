@@ -50,6 +50,7 @@ import com.familycircle.utils.network.ResponseListener;
 import com.familycircle.utils.network.Types;
 import com.familycircle.utils.network.model.DoorCodeModel;
 import com.familycircle.utils.network.model.M2XAllValuesModel;
+import com.familycircle.utils.network.model.M2XValuesModel;
 import com.familycircle.utils.network.model.UserObject;
 
 import org.json.JSONException;
@@ -441,8 +442,12 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
                 Logger.d("db user from " );
                 if (userObject==null) return;
                 Logger.d("db user from " + userObject.email);
-                M2XGetAllStreamValues m2XGetAllStreamValues = new M2XGetAllStreamValues(this, userObject.m2x_id, 1);
+                M2XGetStreamValues m2XGetAllStreamValues = new M2XGetStreamValues(this, userObject.m2x_id, "location",1);
                 m2XGetAllStreamValues.exec();
+                M2XGetStreamValues m2XGetAllStreamValues2 = new M2XGetStreamValues(this, userObject.m2x_id, "heartbeat",1);
+                m2XGetAllStreamValues2.exec();
+                M2XGetStreamValues m2XGetAllStreamValues3 = new M2XGetStreamValues(this, userObject.m2x_id, "distance",1);
+                m2XGetAllStreamValues3.exec();
             }
 
         if (response.getRequestType() == Types.RequestType.QUERY_INSERT_DOOR_CODE){
@@ -450,24 +455,26 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
         }
 
 
-            if (response.getRequestType()==Types.RequestType.M2X_GET_ALL_STREAM){
+            if (response.getRequestType()==Types.RequestType.M2X_GET_STREAM){
 
-                String messageLabel = "Bot Helper: => Details for " + userTagId +"\n ";
+                String messageLabel = "";
 
-                M2XAllValuesModel m2XAllValuesModel = ( M2XAllValuesModel)response.getModel();
+                M2XValuesModel m2XAllValuesModel = (M2XValuesModel)response.getModel();
                 if (m2XAllValuesModel!=null){
-                    List<M2XAllValuesModel.ValuesModel> m2xValues = m2XAllValuesModel.m2xValues;
+                    List<M2XValuesModel.ValueModel>  m2xValues = m2XAllValuesModel.m2xValues;
                     if (m2xValues!=null){
-                        for (M2XAllValuesModel.ValuesModel valuesModel: m2xValues){
+                        for (M2XValuesModel.ValueModel valuesModel: m2xValues){
                             if (valuesModel!=null){
-                                Map<String, String> valueMap = valuesModel.valueMap;
-
-                                for (Map.Entry<String, String> entry : valueMap.entrySet()) {
-                                    String key = entry.getKey();
-                                    Object value = entry.getValue();
-                                    messageLabel = messageLabel + key+ " : " + value + " \n";
+                                if (valuesModel.value!=null && valuesModel.value.contains("long:")) {
+                                    messageLabel = "Bot Helper: => Last Location Details for " + userTagId +"\n ";
+                                    messageLabel = messageLabel + valuesModel.timestamp + " \n: " + valuesModel.value + " \n";
+                                } else if (valuesModel.value!=null && valuesModel.value.contains("motion")) {
+                                    messageLabel = "Bot Helper: => Last Motion Details for " + userTagId +"\n ";
+                                    messageLabel = messageLabel + valuesModel.timestamp + " \n: " + valuesModel.value + " \n";
+                                } else {
+                                    messageLabel = "Bot Helper: => Last Heartbeat Details for " + userTagId +"\n ";
+                                    messageLabel = messageLabel + valuesModel.timestamp + " \n HeartBeat : " + valuesModel.value + " BPM \n";
                                 }
-
 
                             }
                         }
@@ -475,6 +482,7 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
                 }
 
                 if (messageLabel!=null){
+
                     MessageModel messageModel = new MessageModel();
                     PrefManagerBase prefMgr = new PrefManagerBase();
                     messageModel.setMid(prefMgr.getNextId());
