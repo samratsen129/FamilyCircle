@@ -375,7 +375,7 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
     }
 
     @Override
-    public void onPubNubMessage(String channel, Object message) {
+    public void onPubNubMessage(String channel, Object message, JSONObject ignore) {
         try {
 
             if (this==null||Foreground.instance.isBackground()) return;

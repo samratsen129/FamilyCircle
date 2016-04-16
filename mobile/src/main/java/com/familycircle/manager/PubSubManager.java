@@ -148,13 +148,13 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
             try {
                 jsonObject = new JSONObject(message.toString());
                 UserObject userObject = LoginRequest.getUserObject();
+                String type = jsonObject.getString("type");
                 String from = jsonObject.getString("from");
-                if (userObject != null && from != null) {
+                if (userObject != null && from != null && !"heartbeat".equals(type)) {
                     if (userObject.email.equalsIgnoreCase(from)){
                         return;
                     }
                 }
-                String type = jsonObject.getString("type");
 
                 if (type.equalsIgnoreCase("panic")) {
                     String messageValue = jsonObject.getString("value");
