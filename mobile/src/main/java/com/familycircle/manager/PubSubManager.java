@@ -147,6 +147,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(message.toString());
+                UserObject userObject = LoginRequest.getUserObject();
                 String from = jsonObject.getString("from");
                 if (userObject != null && from != null) {
                     if (userObject.email.equalsIgnoreCase(from)){
@@ -309,7 +310,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
 
 
     public interface OnPubNubMessage {
-        public void onPubNubMessage(String channel, Object message);
+        public void onPubNubMessage(String channel, Object message, JSONObject object);
         public void onConnect(String channel, Object message);
     }
 }
