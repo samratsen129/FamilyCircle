@@ -21,16 +21,15 @@ import java.util.List;
  */
 public class M2XGetAllStreamValues extends Request {
 
-    private String deviceId, streamName;
+    private String deviceId;
 
-    public M2XGetAllStreamValues(final ResponseListener responseListener, final String deviceId, final String streamName, int limit) {
+    public M2XGetAllStreamValues(final ResponseListener responseListener, final String deviceId, int limit) {
 
         super(Types.HttpRequestType.GET, "application/json", "https://api-m2x.att.com/v2/devices/"+deviceId+"/values?limit="+limit);
 
         ArrayList data = new ArrayList<NameValuePair>();
 
         this.deviceId  = deviceId;
-        this.streamName = streamName;
 
         data.add(new BasicNameValuePair("X-M2X-KEY", TEAMConstants.M2X_KEY));
 

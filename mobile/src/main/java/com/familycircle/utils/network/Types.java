@@ -40,6 +40,8 @@ public class Types {
 		QUERY_DB_INVITE("query_db_invite"),
 		QUERY_DB_USER_DEVICES("query_database_user_devices"),
 		QUERY_INVITE_USER("query_invite_user"),
+		QUERY_INSERT_DOOR_CODE("query_add_door_code"),
+		QUERY_DOOR_CODE("query_door_code"),
 
 		QUERY_DB_DEVICE("query_database_device"),
         QUERY_DB_DEVICE_UUID("query_database_device2"),

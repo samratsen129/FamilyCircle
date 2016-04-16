@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.familycircle.R;
+import com.familycircle.lib.utils.Logger;
 import com.familycircle.lib.utils.PrefManagerBase;
 import com.familycircle.manager.M2XStreamManager;
 import com.familycircle.manager.M2XTriggerManager;
@@ -151,6 +153,25 @@ public class NewUserLoginActivity extends Activity implements Handler.Callback, 
             cancel = true;
         }
 
+        if (userObject!=null){
+            if (TextUtils.isEmpty(password.getText().toString())) {
+                String userPassword = password.getText().toString();
+                final String hash;
+                try {
+                    hash = Base64.encodeToString(SecUtil.generateSHA1Hash(userPassword), Base64.NO_WRAP);
+                    if (userPassword!=null && hash.equalsIgnoreCase(userObject.password)) {
+                        name.setError("Credentials not correct");
+                    }
+                } catch (Exception e) {
+                    Logger.e("Password not correct", e);
+                    name.setError("Credentials not correct");
+                }
+
+
+            }
+
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -185,7 +206,7 @@ public class NewUserLoginActivity extends Activity implements Handler.Callback, 
             userObject.device_id = Dvc.getDeviceUid(getApplicationContext());
         }
         if (userObject.family_id==null) {
-            userObject.family_id = UUID.randomUUID().toString();
+            userObject.family_id = (inviteModel!=null)?inviteModel.familyId:UUID.randomUUID().toString();
         }
         userObject.password = password.getText().toString();
 

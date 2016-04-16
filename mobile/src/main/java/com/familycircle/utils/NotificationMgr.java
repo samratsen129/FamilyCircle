@@ -91,14 +91,14 @@ public class NotificationMgr {
 
 			initNotification(TEAMConstants.NOTIFICATION_MISSED_CALL_ID, R.layout.notification_call, messageText, fromName);
 
-			if (Foreground.get().isBackground()) mNotification.defaults |= Notification.DEFAULT_SOUND;
+			//if (Foreground.get().isBackground())
+				mNotification.defaults |= Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE;
 
 			mNotificationContentView.setImageViewResource(R.id.notification_image, R.drawable.notification_icon);
 			mNotificationContentView.setTextViewText(R.id.notification_title, title);
 			String alertMsg = messageText.length()>60?messageText.substring(0, 60)+"...":messageText;
 			mNotificationContentView.setTextViewText(R.id.notification_message, alertMsg);
 			mNotification.contentView = mNotificationContentView;
-
 			mNotificationManager.notify(TEAMConstants.NOTIFICATION_MISSED_CALL_ID, mNotification);
 
 			//sendNewMissedCallMessage();

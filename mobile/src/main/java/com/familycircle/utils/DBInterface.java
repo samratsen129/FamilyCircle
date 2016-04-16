@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
+import com.familycircle.utils.network.model.DoorCodeModel;
 import com.familycircle.utils.network.model.InviteModel;
 import com.familycircle.utils.network.model.UserObject;
 import com.parse.Parse;
@@ -100,6 +101,7 @@ public class DBInterface {
             userDevice.objectId= parseObject.getString("objectId");
             userDevice.is_head= parseObject.getBoolean("is_head");
             userDevice.m2x_id = parseObject.getString("m2x_id");
+            userDevice.password = parseObject.getString("password");
 
             return userDevice;
 
@@ -127,6 +129,7 @@ public class DBInterface {
             userDevice.objectId= parseObject.getString("objectId");
             userDevice.is_head= parseObject.getBoolean("is_head");
             userDevice.m2x_id = parseObject.getString("m2x_id");
+            userDevice.password = parseObject.getString("password");
 
             return userDevice;
 
@@ -274,6 +277,39 @@ public class DBInterface {
 
         return true;
 
+    }
+
+    public static DoorCodeModel getDoorCode(final String code) throws Exception {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("door_code");
+        query.whereEqualTo("code", code);
+        List<ParseObject> list = query.find();
+
+        if (list!=null && !list.isEmpty()){
+            DoorCodeModel doorCodeModel = new DoorCodeModel();
+            ParseObject parseObject = list.get(0);
+            doorCodeModel.fromUser = parseObject.getString("from_user");
+            doorCodeModel.toUser = parseObject.getString("to_user");
+            doorCodeModel.code = parseObject.getString("code");
+
+            return doorCodeModel;
+
+        } else {
+            return null;
+
+        }
+    }
+
+    public static  boolean insertDoorCode(final DoorCodeModel doorCodeModel) throws Exception {
+
+
+        ParseObject userDeviceNew = new ParseObject("door_code");
+        userDeviceNew.put("to_user", doorCodeModel.toUser);
+        userDeviceNew.put("from_user", doorCodeModel.fromUser);
+        userDeviceNew.put("code", doorCodeModel.code);
+        userDeviceNew.save();
+
+        return true;
     }
 
 }

@@ -50,5 +50,6 @@
     <string name="title_activity_in_call">InCallActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_new_user_login">NewUserLoginActivity</string>
+    <string name="title_activity_maps2">Map</string>
 
 </resources>

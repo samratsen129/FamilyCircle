@@ -1,5 +1,6 @@
 package com.familycircle.sdk;
 
+import com.familycircle.lib.utils.db.SmsDbAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.familycircle.lib.AppRTCClient;
@@ -194,6 +195,22 @@ public final class ChannelManager implements AppRTCClient.WebSocketChannelEvents
         }
     }
 
+    public void sendCommandMessage(String command, String toUser){
+        try {
+            ContactModel loginUser = ContactsStaticDataModel.getLogInUser();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "controlcommand");
+            jsonObject.put("to", toUser);
+            jsonObject.put("from", loginUser.getIdTag());
+            jsonObject.put("payload", command);
+            //String jsonStr = jsonObject.toString();
+            PnRTCManager.getInstance().transmitMessage(toUser, jsonObject);
+
+        } catch (Exception e) {
+            Logger.e("Command Message Error", e);
+        }
+    }
+
     private final JsonHttpResponseHandler asyncHttpResponseHandler = new JsonHttpResponseHandler() {
 
         @Override
@@ -272,6 +289,15 @@ public final class ChannelManager implements AppRTCClient.WebSocketChannelEvents
                                 messagingClient.updateEventListeners(Constants.EventReturnState.NEW_OUT_MESSAGE, loginuser, message, fromUser);
                             }
                             return;
+                        }
+
+                    }else if (type.equalsIgnoreCase("controlcommand")){
+                        String payload = jsonObject.getString("payload");
+                        String from = jsonObject.getString("from");
+                        String to = jsonObject.getString("to");
+                        ContactModel contactModel = ContactsStaticDataModel.getLogInUser();
+                        if (to!=null && to.equalsIgnoreCase(contactModel.getIdTag())) {
+                            _controlChannelEvent.onControlEvent(Constants.EventReturnState.INCOMING_COMMAND, null, payload, null);
                         }
 
                     } else if (type.equalsIgnoreCase("users")){

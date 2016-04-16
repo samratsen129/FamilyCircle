@@ -20,7 +20,7 @@ import java.util.List;
 public class M2XStreamManager implements ResponseListener {
 
     private ResponseListener responseCallback;
-    private boolean isLocCompleted=false, isTempCompleted=false, isHRCompleted=false, isVitalsCompleted, isPanicCompleted;
+    private boolean isLocCompleted=false, isTempCompleted=false, isHRCompleted=false, isVitalsCompleted=false, isPanicCompleted=false, isDoorCompleted=false;
     private int TEMPERATURE_LIMIT = 90;
     private int HR_LIMIT = 80;
 
@@ -75,6 +75,12 @@ public class M2XStreamManager implements ResponseListener {
             M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "panic", "none", "none", "alphanumeric");
             m2XCreateStream.exec();
             isLocCompleted = true;
+            return true;
+        }
+        if (!isDoorCompleted) {
+            M2XCreateStream m2XCreateStream = new M2XCreateStream(this, userObject.m2x_id, "door", "none", "none", "alphanumeric");
+            m2XCreateStream.exec();
+            isDoorCompleted = true;
             return true;
         }
         return false;

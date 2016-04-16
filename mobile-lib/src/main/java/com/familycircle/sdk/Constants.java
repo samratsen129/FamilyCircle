@@ -54,6 +54,7 @@ public class Constants {
         GET_USERS_SUCCESS(45),
         LOG_IN_EOF(46),
         INCOMING_CALL_SIGNAL(47),
+        INCOMING_COMMAND(51),
         CALL_CANCEL_SIGNAL(48)
         ;
         public int value;

@@ -111,6 +111,10 @@ public final class TeamManager implements IControlChannelEvent, IMessagingChanne
         return messagingClient;
     }
 
+    public void sendCommandMessage(String command, String toUser){
+        teamChannelManager.sendCommandMessage(command, toUser);
+    }
+
     public IChannelManagerClient getChannelManager(){
         return teamChannelManager;
     }
@@ -156,6 +160,25 @@ public final class TeamManager implements IControlChannelEvent, IMessagingChanne
             final String callTag = ((Integer)extra).toString();
             handleIncomingCall(msg, callTag);
             return;
+        }
+        if (returnState == Constants.EventReturnState.INCOMING_COMMAND){
+            Log.d(TAG, "Enabling command " + msg);
+            if (msg.equalsIgnoreCase("enable_location")){
+                PubSubManager.getInstance().startSharingLocation();
+                return;
+            }
+            if (msg.equalsIgnoreCase("disable_location")){
+                PubSubManager.getInstance().stopSharingLocation();
+                return;
+            }
+            if (msg.equalsIgnoreCase("enable_vitals")){
+                MBand2Manager.getInstance().startSubscriptionTask();
+                return;
+            }
+            if (msg.equalsIgnoreCase("disable_vitals")){
+                MBand2Manager.getInstance().pauseTasks();
+                return;
+            }
         }
         // route the control event to interested listeners
         channelManagerController.handleMessage(returnState.value, userContactModel, msg, extra);

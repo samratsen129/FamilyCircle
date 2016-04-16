@@ -54,7 +54,8 @@ public class AudioPlayer {
 
     public void playAudio(final String audioFileName,
                           final IMediaStatusListener mediaStatusListner){
-        return;
+        //return;
+		playAudio2(audioFileName,mediaStatusListner);
     }
 /*	public void playAudio(final Context context, final String audioUrl,
 			final IMediaStatusListener mediaStatusListner,

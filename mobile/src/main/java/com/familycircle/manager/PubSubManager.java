@@ -148,6 +148,11 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
             try {
                 jsonObject = new JSONObject(message.toString());
                 String from = jsonObject.getString("from");
+                if (userObject != null && from != null) {
+                    if (userObject.email.equalsIgnoreCase(from)){
+                        return;
+                    }
+                }
                 String type = jsonObject.getString("type");
 
                 if (type.equalsIgnoreCase("panic")) {
@@ -156,6 +161,25 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
 
                     NotificationMgr notificationMgr = new NotificationMgr();
                     notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", from, messageValue);
+                }
+
+                if (type.equalsIgnoreCase("heardbeat")
+                        || type.equalsIgnoreCase("heardrate")) {
+                    String messageValue = jsonObject.getString("value");
+
+
+                    NotificationMgr notificationMgr = new NotificationMgr();
+                    notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", from, "An unusual heartrate is being reported. Heart Rate - " + messageValue);
+                }
+
+
+                if (type.equalsIgnoreCase("distance_stream")
+                        || type.equalsIgnoreCase("door distance")) {
+                    String messageValue = jsonObject.getString("value");
+
+
+                    NotificationMgr notificationMgr = new NotificationMgr();
+                    notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", from, "Someone is near your door. Distance - " + messageValue);
                 }
 
             } catch (Exception e){
@@ -285,7 +309,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
 
 
     public interface OnPubNubMessage {
-        public void onPubNubMessage(String channel, Object message, JSONObject jsonObject);
+        public void onPubNubMessage(String channel, Object message);
         public void onConnect(String channel, Object message);
     }
 }
