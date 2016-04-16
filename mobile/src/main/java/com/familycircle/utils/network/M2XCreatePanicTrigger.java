@@ -92,7 +92,7 @@ public class M2XCreatePanicTrigger extends Request {
                 "  \"frequency\": \"periodic\","+
                 "  \"interval\": \"30\","+
                 "  \"callback_url\": \""+M2X_CALLBACK+"\","+
-                "  \"custom_data\": \"{ \\\"from\\\": \\\""+userObject.email+"\\\", \\\"queues\\\":[\\\""+familyId+"\\\"] }\" "+
+                "  \"custom_data\": \"{ \\\"from\\\": \\\""+userObject.email+"\\\", \\\"queues\\\":[\\\""+familyId+"\\\", \\\"pi-atthack-04162016\\\"] }\" "+
                 "}";
         return jsonStr;
     }

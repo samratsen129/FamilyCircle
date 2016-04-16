@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.familycircle.R;
 import com.familycircle.activities.InCallActivity;
 import com.familycircle.activities.MainActivity;
+import com.familycircle.activities.MapsActivity;
 import com.familycircle.activities.MessageDetailActivity;
 import com.familycircle.custom.views.CircularImageView;
 import com.familycircle.custom.views.IPinnedHeader;
@@ -125,6 +127,11 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 			holder.statusIndicatorView = (ImageView)convertView.findViewById(R.id.status_indicator);
 			holder.videoCallButton = (ImageButton) convertView.findViewById(R.id.videoButtonCard);
 			holder.messageCallButton = (ImageButton) convertView.findViewById(R.id.messageRtcButtonCard);
+
+			holder.mapButton = (ImageButton)convertView.findViewById(R.id.mapButtonCard);
+			holder.vitalsButton = (ImageButton)convertView.findViewById(R.id.vitalsButtonCard);
+			holder.hrButton = (ImageButton)convertView.findViewById(R.id.hrButtonCard);
+
 			convertView.setTag(holder);
 
 		} else {
@@ -191,6 +198,23 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 						final Fragment fragment = mainActivity.getFragment();
 						if (fragment instanceof ContactsFragment) {
 							Intent intent = new Intent(mainActivity, MessageDetailActivity.class);
+							intent.putExtra("TAG_ID", contact.getIdTag());
+							intent.putExtra("unreadCnt", 1);
+							mainActivity.startActivityForResult(intent, 0);
+
+						}
+					}
+				}
+			});
+
+			holder.mapButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final MainActivity mainActivity = (MainActivity) v.getContext();
+					if (mainActivity != null) {
+						final Fragment fragment = mainActivity.getFragment();
+						if (fragment instanceof ContactsFragment) {
+							Intent intent = new Intent(mainActivity, MapsActivity.class);
 							intent.putExtra("TAG_ID", contact.getIdTag());
 							intent.putExtra("unreadCnt", 1);
 							mainActivity.startActivityForResult(intent, 0);
@@ -301,5 +325,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 		public ImageButton videoCallButton;
 		public ImageButton messageCallButton;
 		public LinearLayout buttonCotainer;
+		public ImageView mapButton;
+		public ImageView vitalsButton;
+		public ImageView hrButton;
 	}
 }
