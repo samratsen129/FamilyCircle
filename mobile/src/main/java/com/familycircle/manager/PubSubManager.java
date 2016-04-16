@@ -49,7 +49,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
     private Pubnub mPubNub;
     private GoogleApiClient mGoogleApiClient;
     private LatLng mLatLng;
-    public static long locationsampleInterval = 20000 ;//10000;
+    public static long locationsampleInterval = 120000 ;//10000;
     public static long locationfasterInterval = 10000;//5000;
     public boolean isStarted = false;
 
@@ -144,16 +144,17 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
         @Override
         public void successCallback(String channel, Object message) {
             Logger.d("SUBSCRIBE :  Message Received: " + message.toString());
+            JSONObject jsonObject = null;
             try {
-                JSONObject jsonObject = new JSONObject(message.toString());
+                jsonObject = new JSONObject(message.toString());
                 UserObject userObject = LoginRequest.getUserObject();
+                String type = jsonObject.getString("type");
                 String from = jsonObject.getString("from");
-                if (userObject != null && from != null) {
+                if (userObject != null && from != null && !"heartbeat".equals(type)) {
                     if (userObject.email.equalsIgnoreCase(from)){
                         return;
                     }
                 }
-                String type = jsonObject.getString("type");
 
                 if (type.equalsIgnoreCase("panic")) {
                     String messageValue = jsonObject.getString("value");
@@ -187,7 +188,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
             }
 
             for (OnPubNubMessage onPubNubMessage1:callbacks){
-                onPubNubMessage1.onPubNubMessage(channel, message);
+                onPubNubMessage1.onPubNubMessage(channel, message, jsonObject);
             }
             /*JSONObject jsonMessage = (JSONObject) message;
             try {
@@ -277,7 +278,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
         mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         UserObject userObject = LoginRequest.getUserObject();
-        String messageLabel = "lat: " + location.getLatitude() + ", " + "long: " + location.getLongitude() + ", alt: " + location.getAltitude();
+        String messageLabel = "lat: " + location.getLongitude() + ", " + "long: " + location.getLongitude() + ", alt: " + location.getAltitude();
 
         ContactModel userContact = ContactsStaticDataModel.getLogInUser();
         userContact.location = messageLabel;
@@ -309,7 +310,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
 
 
     public interface OnPubNubMessage {
-        public void onPubNubMessage(String channel, Object message);
+        public void onPubNubMessage(String channel, Object message, JSONObject object);
         public void onConnect(String channel, Object message);
     }
 }

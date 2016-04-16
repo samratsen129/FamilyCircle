@@ -4,9 +4,11 @@ package com.familycircle.adapters;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +34,8 @@ import com.familycircle.custom.views.CircularImageView;
 import com.familycircle.custom.views.IPinnedHeader;
 import com.familycircle.custom.views.PinnedHeaderListView;
 import com.familycircle.fragments.ContactsFragment;
+import com.familycircle.fragments.MessageHistoryFragment;
+import com.familycircle.fragments.PhoneDataFragment;
 import com.familycircle.utils.imagecache.ImageLoader;
 import com.familycircle.lib.utils.Logger;
 import com.familycircle.sdk.models.ContactModel;
@@ -129,6 +133,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 			holder.videoCallButton = (ImageButton) convertView.findViewById(R.id.videoButtonCard);
 			holder.messageCallButton = (ImageButton) convertView.findViewById(R.id.messageRtcButtonCard);
 
+			holder.phoneButton = (ImageButton)convertView.findViewById(R.id.phoneButtonCard);
 			holder.mapButton = (ImageButton)convertView.findViewById(R.id.mapButtonCard);
 			holder.vitalsButton = (ImageButton)convertView.findViewById(R.id.vitalsButtonCard);
 
@@ -219,6 +224,26 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 							mainActivity.startActivityForResult(intent, 0);
 
 						}
+					}
+				}
+			});
+
+			holder.phoneButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final MainActivity mainActivity = (MainActivity) v.getContext();
+					if (mainActivity != null) {
+						android.support.v4.app.FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+						Fragment fragment = new PhoneDataFragment();
+
+						Bundle args = new Bundle();
+						args.putString("TAG_ID", contact.getIdTag());
+						fragment.setArguments(args);
+
+						fragmentManager.beginTransaction()
+								.replace(R.id.container, fragment)
+								.addToBackStack(null)
+								.commit();
 					}
 				}
 			});
@@ -326,5 +351,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 		public LinearLayout buttonCotainer;
 		public ImageView mapButton;
 		public ImageView vitalsButton;
+		public ImageButton phoneButton;
 	}
 }

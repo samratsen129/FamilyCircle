@@ -119,7 +119,7 @@ public class Maps2Activity extends FragmentActivity implements PubSubManager.OnP
     }
 
     @Override
-    public void onPubNubMessage(String channel, Object message) {
+    public void onPubNubMessage(String channel, Object message, JSONObject ignore) {
         Logger.d("Map Activity received " + message);
         try {
 
