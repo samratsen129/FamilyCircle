@@ -163,8 +163,8 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
                     notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", from, messageValue);
                 }
 
-                if (type.equalsIgnoreCase("heardbeat")
-                        || type.equalsIgnoreCase("heardrate")) {
+                if (type.equalsIgnoreCase("heartbeat")
+                        || type.equalsIgnoreCase("heartrate")) {
                     String messageValue = jsonObject.getString("value");
 
 

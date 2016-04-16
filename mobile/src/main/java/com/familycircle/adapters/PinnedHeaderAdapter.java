@@ -131,7 +131,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 
 			holder.mapButton = (ImageButton)convertView.findViewById(R.id.mapButtonCard);
 			holder.vitalsButton = (ImageButton)convertView.findViewById(R.id.vitalsButtonCard);
-			holder.hrButton = (ImageButton)convertView.findViewById(R.id.hrButtonCard);
 
 			convertView.setTag(holder);
 
@@ -327,6 +326,5 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 		public LinearLayout buttonCotainer;
 		public ImageView mapButton;
 		public ImageView vitalsButton;
-		public ImageView hrButton;
 	}
 }

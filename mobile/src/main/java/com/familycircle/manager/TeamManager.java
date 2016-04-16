@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import com.familycircle.R;
 import com.familycircle.TeamApp;
 import com.familycircle.activities.IncomingCallActivity;
+import com.familycircle.utils.NotificationMgr;
 import com.familycircle.utils.SmsNotificationMgr;
 import com.familycircle.utils.TEAMConstants;
 import com.familycircle.lib.utils.AudioPlayer;
@@ -165,6 +166,10 @@ public final class TeamManager implements IControlChannelEvent, IMessagingChanne
             Log.d(TAG, "Enabling command " + msg);
             if (msg.equalsIgnoreCase("enable_location")){
                 PubSubManager.getInstance().startSharingLocation();
+
+                NotificationMgr notificationMgr = new NotificationMgr();
+                notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", "", "Your location is being enabled " );
+
                 return;
             }
             if (msg.equalsIgnoreCase("disable_location")){
@@ -173,6 +178,9 @@ public final class TeamManager implements IControlChannelEvent, IMessagingChanne
             }
             if (msg.equalsIgnoreCase("enable_vitals")){
                 MBand2Manager.getInstance().startSubscriptionTask();
+                NotificationMgr notificationMgr = new NotificationMgr();
+                notificationMgr.showNotification(TEAMConstants.NOTIFICATION_INFO_MESSAGE_ID, "Alert", "", "Your microsoft band is being enabled ");
+
                 return;
             }
             if (msg.equalsIgnoreCase("disable_vitals")){
