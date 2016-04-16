@@ -144,8 +144,9 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
         @Override
         public void successCallback(String channel, Object message) {
             Logger.d("SUBSCRIBE :  Message Received: " + message.toString());
+            JSONObject jsonObject = null;
             try {
-                JSONObject jsonObject = new JSONObject(message.toString());
+                jsonObject = new JSONObject(message.toString());
                 String from = jsonObject.getString("from");
                 String type = jsonObject.getString("type");
 
@@ -162,7 +163,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
             }
 
             for (OnPubNubMessage onPubNubMessage1:callbacks){
-                onPubNubMessage1.onPubNubMessage(channel, message);
+                onPubNubMessage1.onPubNubMessage(channel, message, jsonObject);
             }
             /*JSONObject jsonMessage = (JSONObject) message;
             try {
@@ -284,7 +285,7 @@ public class PubSubManager implements INetworkStatusChange, GoogleApiClient.Conn
 
 
     public interface OnPubNubMessage {
-        public void onPubNubMessage(String channel, Object message);
+        public void onPubNubMessage(String channel, Object message, JSONObject jsonObject);
         public void onConnect(String channel, Object message);
     }
 }

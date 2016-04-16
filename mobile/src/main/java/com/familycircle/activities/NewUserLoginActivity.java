@@ -2,9 +2,7 @@ package com.familycircle.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -29,7 +27,6 @@ import com.familycircle.sdk.models.ContactModel;
 import com.familycircle.sdk.models.ContactsStaticDataModel;
 import com.familycircle.utils.Dvc;
 import com.familycircle.utils.NetworkUtils;
-import com.familycircle.utils.SecUtil;
 import com.familycircle.utils.TEAMConstants;
 import com.familycircle.utils.network.LoginRequest;
 import com.familycircle.utils.network.M2XCreateRequest;
@@ -41,8 +38,8 @@ import com.familycircle.utils.network.Types;
 import com.familycircle.utils.network.model.InviteModel;
 import com.familycircle.utils.network.model.M2XDevice;
 import com.familycircle.utils.network.model.UserObject;
+import org.json.JSONObject;
 
-import java.util.Date;
 import java.util.UUID;
 
 public class NewUserLoginActivity extends Activity implements Handler.Callback, ResponseListener, PubSubManager.OnPubNubMessage {
@@ -404,7 +401,7 @@ public class NewUserLoginActivity extends Activity implements Handler.Callback, 
     }
 
     @Override
-    public void onPubNubMessage(String channel, Object message) {
+    public void onPubNubMessage(String channel, Object message, JSONObject jsonObject) {
 
     }
 
