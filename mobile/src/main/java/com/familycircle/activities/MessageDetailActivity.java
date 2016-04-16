@@ -21,8 +21,12 @@ import android.widget.Toast;
 import com.familycircle.R;
 import com.familycircle.TeamApp;
 import com.familycircle.adapters.MessageDetailListAdapter;
+import com.familycircle.lib.utils.Logger;
+import com.familycircle.manager.PubSubManager;
 import com.familycircle.manager.TeamManager;
+import com.familycircle.utils.DBInterface;
 import com.familycircle.utils.NetworkUtils;
+import com.familycircle.utils.NotificationMgr;
 import com.familycircle.utils.SmsNotificationMgr;
 import com.familycircle.utils.TEAMConstants;
 import com.familycircle.utils.TEAMUtils;
@@ -34,6 +38,19 @@ import com.familycircle.sdk.IMessagingChannelClient;
 import com.familycircle.sdk.models.ContactModel;
 import com.familycircle.sdk.models.ContactsStaticDataModel;
 import com.familycircle.sdk.models.MessageModel;
+import com.familycircle.utils.network.DoorInsertRequest;
+import com.familycircle.utils.network.LoginRequest;
+import com.familycircle.utils.network.M2XCreateStreamValue;
+import com.familycircle.utils.network.M2XGetAllStreamValues;
+import com.familycircle.utils.network.M2XGetStreamValues;
+import com.familycircle.utils.network.QueryDbInvite;
+import com.familycircle.utils.network.QueryDbUser;
+import com.familycircle.utils.network.Response;
+import com.familycircle.utils.network.ResponseListener;
+import com.familycircle.utils.network.Types;
+import com.familycircle.utils.network.model.DoorCodeModel;
+import com.familycircle.utils.network.model.M2XAllValuesModel;
+import com.familycircle.utils.network.model.UserObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,8 +58,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-public class MessageDetailActivity extends ActionBarActivity implements Handler.Callback, View.OnClickListener{
+public class MessageDetailActivity extends ActionBarActivity implements Handler.Callback,
+        View.OnClickListener, PubSubManager.OnPubNubMessage, ResponseListener{
 
     private static final String TAG = "MessageDetailActivity";
     String userTagId;
@@ -179,6 +198,7 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
             MessageModel messageModel = (MessageModel)msg.obj;
             if (messageModel!=null){
                 drawChatBubble(messageModel);
+                processIncomingChatMessage(messageModel.getBody());
                 /*
                 ArrayList<MessageModel> list = new ArrayList<MessageModel>();
                 list.add(messageModel);
@@ -231,6 +251,7 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
                 messageModel.setTn(contact.getIdTag());
                 messageModel.setDir("O");
                 messageModel.setBody(message);
+                processChatMessage(message);
                 //messageModel.setServerId(id);
                 messageModel.setStatus("R");
                 messageModel.setTime((new Date()).getTime());
@@ -245,6 +266,237 @@ public class MessageDetailActivity extends ActionBarActivity implements Handler.
                 etMessage.setText("");
             }
         }
+    }
+
+    private void processIncomingChatMessage(String m){
+        try {
+            String message = m.toLowerCase().trim();
+
+            MessageModel messageModel = new MessageModel();
+            PrefManagerBase prefMgr = new PrefManagerBase();
+            messageModel.setMid(prefMgr.getNextId());
+            messageModel.setTn(contact.getIdTag());
+            messageModel.setDir("O");
+            //messageModel.setServerId(id);
+            messageModel.setStatus("R");
+            messageModel.setTime((new Date()).getTime());
+            messageModel.setName(contact.getName());
+
+            if (message.contains("use")
+                    && message.contains("door")
+                    && message.contains("code")) {
+
+                messageModel.setBody("Helper Bot: Your can use the door code from menu. ");
+                List<MessageModel> messageModels = new ArrayList<MessageModel>();
+                messageModels.add(messageModel);
+                drawChatBubble(messageModel);
+
+            }
+
+
+        }catch (Exception e){
+            Logger.e("Error while processing chat message", e);
+        }
+    }
+
+    private void processChatMessage(String m){
+
+        try {
+
+            String message = m.toLowerCase().trim();
+            int pos = message.indexOf("sos ");
+            UserObject userObject = LoginRequest.getUserObject();
+            if (pos == 0) {
+                Date date = new Date();
+
+                M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "panic", "alphanumeric", message +" @ " + date.toString());
+                m2XCreateStream.exec();
+                PubSubManager.getInstance().startSharingLocation();
+            }
+
+            if (message.contains("use")
+                    && message.contains("door")
+                    && message.contains("code")) {
+                DoorCodeModel doorCodeModel = new DoorCodeModel();
+                doorCodeModel.code = "1111";
+                doorCodeModel.fromUser = userObject.email;
+                doorCodeModel.toUser = userTagId;
+                try {
+                    DoorInsertRequest doorInsertRequest = new DoorInsertRequest(doorCodeModel, this);
+                    doorInsertRequest.exec();
+
+                } catch (Exception e) {
+                    Logger.e("Door insert error", e);
+                }
+            }
+
+            if (message.contains("where")
+                    && message.contains("are")
+                    && message.contains("you")) {
+                TeamManager.getInstance().sendCommandMessage("enable_location", userTagId);
+                QueryDbUser queryDbUser = new QueryDbUser(userTagId, this);
+                queryDbUser.exec();
+            }
+
+            if (message.contains("where")
+                    && message.contains("r")
+                    && message.contains("u")) {
+                TeamManager.getInstance().sendCommandMessage("enable_location", userTagId);
+                QueryDbUser queryDbUser = new QueryDbUser(userTagId, this);
+                queryDbUser.exec();
+            }
+
+            if (message.contains("how")
+                    && message.contains("r")
+                    && message.contains("u")) {
+                TeamManager.getInstance().sendCommandMessage("enable_vitals", userTagId);
+                QueryDbUser queryDbUser = new QueryDbUser(userTagId, this);
+                queryDbUser.exec();
+            }
+
+            if (message.contains("how")
+                    && message.contains("are")
+                    && message.contains("you")) {
+                TeamManager.getInstance().sendCommandMessage("enable_vitals", userTagId);
+                QueryDbUser queryDbUser = new QueryDbUser(userTagId, this);
+                queryDbUser.exec();
+            }
+
+            if (message.contains("how")
+                    && message.contains("health")) {
+                TeamManager.getInstance().sendCommandMessage("enable_vitals", userTagId);
+                QueryDbUser queryDbUser = new QueryDbUser(userTagId, this);
+                queryDbUser.exec();
+            }
+        } catch (Exception e){
+            Logger.e("Error while processing chat message", e);
+        }
+
+    }
+
+    @Override
+    public void onPubNubMessage(String channel, Object message) {
+        try {
+
+            if (this==null||Foreground.instance.isBackground()) return;
+
+            MessageModel messageModel = new MessageModel();
+            PrefManagerBase prefMgr = new PrefManagerBase();
+            messageModel.setMid(prefMgr.getNextId());
+            messageModel.setTn(contact.getIdTag());
+            messageModel.setDir("O");
+            //messageModel.setServerId(id);
+            messageModel.setStatus("R");
+            messageModel.setTime((new Date()).getTime());
+            messageModel.setName(contact.getName());
+
+            JSONObject jsonObject = new JSONObject(message.toString());
+            String from = jsonObject.getString("from");
+            String type = jsonObject.getString("type");
+
+            if (type.equalsIgnoreCase("panic")) {
+                String messageValue = jsonObject.getString("value");
+                messageModel.setBody("News Flash: Panic from " + from + "=> " + messageValue);
+                List<MessageModel> messageModels = new ArrayList<MessageModel>();
+                messageModels.add(messageModel);
+                drawChatBubble(messageModel);
+            }
+
+            if (type.equalsIgnoreCase("heartbeat")
+                    || type.equalsIgnoreCase("heartrate")) {
+                String messageValue = jsonObject.getString("value");
+                messageModel.setBody("News Flash: Abormal heart beat from " + from + "=> Beat: " + messageValue);
+                List<MessageModel> messageModels = new ArrayList<MessageModel>();
+                messageModels.add(messageModel);
+                drawChatBubble(messageModel);
+            }
+
+
+            if (type.equalsIgnoreCase("distance_stream")
+                    || type.equalsIgnoreCase("door distance")) {
+                String messageValue = jsonObject.getString("value");
+                messageModel.setBody("News Flash: Alert => Someone is " + messageValue + " from your door.");
+                List<MessageModel> messageModels = new ArrayList<MessageModel>();
+                messageModels.add(messageModel);
+                drawChatBubble(messageModel);
+            }
+
+
+
+        } catch (Exception e){
+            Logger.e("Exception in chat window", e);
+        }
+    }
+
+    @Override
+    public void onConnect(String channel, Object message) {
+
+
+    }
+
+    @Override
+    public void onSuccess(Response response) {
+            if (response.getRequestType() == Types.RequestType.QUERY_DB_USER){
+                UserObject userObject = (UserObject)response.getModel();
+                Logger.d("db user from " );
+                if (userObject==null) return;
+                Logger.d("db user from " + userObject.email);
+                M2XGetAllStreamValues m2XGetAllStreamValues = new M2XGetAllStreamValues(this, userObject.m2x_id, 1);
+                m2XGetAllStreamValues.exec();
+            }
+
+        if (response.getRequestType() == Types.RequestType.QUERY_INSERT_DOOR_CODE){
+            Toast.makeText(getApplicationContext(), "Door code sent", Toast.LENGTH_LONG).show();
+        }
+
+
+            if (response.getRequestType()==Types.RequestType.M2X_GET_ALL_STREAM){
+
+                String messageLabel = "Bot Helper: => Details for " + userTagId +"\n ";
+
+                M2XAllValuesModel m2XAllValuesModel = ( M2XAllValuesModel)response.getModel();
+                if (m2XAllValuesModel!=null){
+                    List<M2XAllValuesModel.ValuesModel> m2xValues = m2XAllValuesModel.m2xValues;
+                    if (m2xValues!=null){
+                        for (M2XAllValuesModel.ValuesModel valuesModel: m2xValues){
+                            if (valuesModel!=null){
+                                Map<String, String> valueMap = valuesModel.valueMap;
+
+                                for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                                    String key = entry.getKey();
+                                    Object value = entry.getValue();
+                                    messageLabel = messageLabel + key+ " : " + value + " \n";
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+
+                if (messageLabel!=null){
+                    MessageModel messageModel = new MessageModel();
+                    PrefManagerBase prefMgr = new PrefManagerBase();
+                    messageModel.setMid(prefMgr.getNextId());
+                    messageModel.setTn(contact.getIdTag());
+                    messageModel.setDir("O");
+                    //messageModel.setServerId(id);
+                    messageModel.setStatus("R");
+                    messageModel.setTime((new Date()).getTime());
+                    messageModel.setName(contact.getName());
+
+                    messageModel.setBody(messageLabel);
+                    List<MessageModel> messageModels = new ArrayList<MessageModel>();
+                    messageModels.add(messageModel);
+                    drawChatBubble(messageModel);
+
+                }
+            }
+    }
+
+    @Override
+    public void onFailure(Response response) {
+        Logger.e("Failed from " + response.getRequestType());
     }
 
     public class MessageLoadingTask extends AsyncTask<Void, Void, Boolean> {

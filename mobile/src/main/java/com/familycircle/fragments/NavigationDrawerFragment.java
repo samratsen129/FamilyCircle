@@ -110,6 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         name,
                         "Invite New User",
+                        "Door Code",
                         getString(R.string.title_contacts),
                         getString(R.string.title_messages),
                         getString(R.string.title_recordings),

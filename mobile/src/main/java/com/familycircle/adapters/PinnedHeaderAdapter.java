@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.familycircle.R;
 import com.familycircle.activities.InCallActivity;
 import com.familycircle.activities.MainActivity;
+import com.familycircle.activities.Maps2Activity;
 import com.familycircle.activities.MapsActivity;
 import com.familycircle.activities.MessageDetailActivity;
 import com.familycircle.custom.views.CircularImageView;
@@ -214,9 +215,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements OnScrollListener
 					if (mainActivity != null) {
 						final Fragment fragment = mainActivity.getFragment();
 						if (fragment instanceof ContactsFragment) {
-							Intent intent = new Intent(mainActivity, MapsActivity.class);
+							Intent intent = new Intent(mainActivity, Maps2Activity.class);
 							intent.putExtra("TAG_ID", contact.getIdTag());
-							intent.putExtra("unreadCnt", 1);
 							mainActivity.startActivityForResult(intent, 0);
 
 						}

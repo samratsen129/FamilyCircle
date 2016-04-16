@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.familycircle.manager.PubSubManager;
 import com.familycircle.utils.NotificationMgr;
 import com.familycircle.utils.TEAMConstants;
 import com.familycircle.utils.network.LoginRequest;
@@ -157,25 +158,29 @@ public class MainActivity extends ActionBarActivity
         boolean isLogOff = false;
         boolean isInviteUser = false;
         boolean isPanic = false;
+        boolean isDoorCode = false;
         switch (position){
             case 1:
                 isInviteUser = true;
                 break;
-            case 0:
             case 2:
+                isDoorCode = true;
+                break;
+            case 0:
+            case 3:
                 fragment = new ContactsFragment();
                 break;
-            case 3:
+            case 4:
                 fragment = new MessageHistoryFragment();
                 break;
-            case 4:
+            case 5:
                 fragment = new MyRecordingsFragment();
                 break;
-            case 5:
+            case 6:
                 isPanic=true;
                 panicTrigger();
                 break;
-            case 6:
+            case 7:
                 isLogOff = true;
                 break;
         }
@@ -196,6 +201,11 @@ public class MainActivity extends ActionBarActivity
             Date date = new Date();
             Toast.makeText(getApplicationContext(), "Panic Triggered @ " + date.toString(), Toast.LENGTH_SHORT).show();
 
+        } else if (isDoorCode){
+            Intent intent = new Intent(MainActivity.this, DoorCodeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
         } else {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
@@ -212,6 +222,7 @@ public class MainActivity extends ActionBarActivity
         UserObject userObject = LoginRequest.getUserObject();
         M2XCreateStreamValue m2XCreateStream = new M2XCreateStreamValue(null, userObject.m2x_id, "panic", "alphanumeric", "I am panic-ing @ " + date.toString());
         m2XCreateStream.exec();
+        PubSubManager.getInstance().startSharingLocation();
     }
 
     public void restoreActionBar() {

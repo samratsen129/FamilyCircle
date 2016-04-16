@@ -1,6 +1,7 @@
 package com.familycircle.manager;
 
 import com.familycircle.utils.network.LoginRequest;
+import com.familycircle.utils.network.M2XCreateDoorTrigger;
 import com.familycircle.utils.network.M2XCreateHRTrigger;
 import com.familycircle.utils.network.M2XCreateLocationTrigger;
 import com.familycircle.utils.network.M2XCreatePanicTrigger;
@@ -20,7 +21,7 @@ import java.util.List;
 public class M2XTriggerManager implements ResponseListener {
 
     private ResponseListener responseCallback;
-    private boolean isLocCompleted=false, isTempCompleted=false, isHRCompleted=false, isPanicCompleted=false;
+    private boolean isLocCompleted=false, isTempCompleted=false, isHRCompleted=false, isPanicCompleted=false, isDoorCompleted=false;
     private int TEMPERATURE_LIMIT = 90;
     private int HR_LIMIT = 80;
 
@@ -50,6 +51,8 @@ public class M2XTriggerManager implements ResponseListener {
                             isLocCompleted = true;
                         } else if (name.equalsIgnoreCase("panic")){
                             isPanicCompleted = true;
+                        } else if (name.equalsIgnoreCase("door")){
+                            isDoorCompleted = true;
                         }
                     }
                 }
@@ -98,6 +101,13 @@ public class M2XTriggerManager implements ResponseListener {
             M2XCreatePanicTrigger m2XCreatePanicTrigger = new M2XCreatePanicTrigger(this, userObject.m2x_id, "panic", userObject.family_id);
             m2XCreatePanicTrigger.exec();
             isPanicCompleted=true;
+            return true;
+        }
+        if (!isDoorCompleted){
+            M2XCreateDoorTrigger m2XCreateDoorTrigger = new M2XCreateDoorTrigger(this, userObject.m2x_id, "door", userObject.family_id);
+            m2XCreateDoorTrigger.exec();
+            isDoorCompleted=true;
+            return true;
         }
         return false;
     }

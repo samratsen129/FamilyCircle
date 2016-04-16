@@ -81,6 +81,12 @@ public class SettingsActivity extends ActionBarActivity implements CompoundButto
         band2Switch = (SwitchCompat)findViewById(R.id.switch_microsoft_band);
         band2Switch.setSwitchPadding(40);
         band2Switch.setOnCheckedChangeListener(this);
+        if (MBand2Manager.getInstance().isStarted){
+            band2Switch.setChecked(true);
+        }
+        if (PubSubManager.getInstance().isStarted){
+            locationSwitch.setChecked(true);
+        }
 
         sharedpreferences = getSharedPreferences(AUTOPREFERENCES, Context.MODE_PRIVATE);
 
