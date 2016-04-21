@@ -9,4 +9,4 @@
     - send door open commands
     - send SOS to others and alert through sensors
     - request location
-    - request health of your amily members
+    - request health of your family members
